@@ -9,3 +9,11 @@
     - java_install
     - java
     - install
+
+- name: add to profile.d
+  lineinfile:
+    dest: "/etc/profile.d/java.sh"
+    line: "export {{ item }}"
+    create: yes
+  with_items:
+    - JAVA_HOME=$(dirname $(dirname $(dirname $(update-alternatives --list java))))
