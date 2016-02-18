@@ -17,3 +17,7 @@
     create: yes
   with_items:
     - JAVA_HOME=$(dirname $(dirname $(dirname $(update-alternatives --list java))))
+  tags:
+    - java
+    - java_install
+    - install
