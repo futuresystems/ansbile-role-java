@@ -1,22 +1,49 @@
 ---
 
-- name: install java
+- name: install java (Debian)
+  when: ansible_os_family == 'Debian'
   apt:
     name: "{{ item }}"
     state: present
-  with_items: "{{ java_packages }}"
+  with_items: "{{ java_packages_debian }}"
   tags:
     - java_install
     - java
     - install
 
-- name: add to profile.d
+- name: install java (RedHat)
+  when: ansible_os_family == 'RedHat'
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ java_packages_redhat }}"
+  tags:
+    - java_install
+    - java
+    - install
+
+
+- name: add to profile.d (Debian)
+  when: ansible_os_family == 'Debian'
   lineinfile:
     dest: "/etc/profile.d/java.sh"
     line: "export {{ item }}"
     create: yes
   with_items:
     - JAVA_HOME=$(dirname $(dirname $(dirname $(update-alternatives --list java))))
+  tags:
+    - java
+    - java_install
+    - install
+
+- name: add to profile.d (RedHat)
+  when: ansible_os_family == 'RedHat'
+  lineinfile:
+    dest: "/etc/profile.d/java.sh"
+    line: "export {{ item }}"
+    create: yes
+  with_items:
+    - JAVA_HOME=/etc/alternatives/java_sdk
   tags:
     - java
     - java_install
