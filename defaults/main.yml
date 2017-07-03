@@ -1,8 +1,8 @@
 ---
 
 java_packages_debian:
-  - openjdk-7-jre-headless
-  - openjdk-7-jdk
+  - default-jre-headless
+  - default-jdk
 
 java_packages_redhat:
   - java-1.7.0-openjdk-headless
